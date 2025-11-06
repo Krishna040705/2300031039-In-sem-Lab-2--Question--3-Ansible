@@ -1,0 +1,35 @@
+kubeconfig: "~/.kube/config"
+namespace: "quizapp"
+
+frontend_image: "skks2005/quiz-frontend:v1"
+backend_image:  "skks2005/quiz-backend:v1"
+
+frontend_port: 80
+backend_port: 8080
+
+frontend_replicas: 2
+backend_replicas: 2
+
+hpa_enabled: true
+frontend_hpa:
+  min: 2
+  max: 5
+  cpu_target: 60
+backend_hpa:
+  min: 2
+  max: 5
+  cpu_target: 60
+
+frontend_resources:
+  requests: { cpu: "100m", memory: "128Mi" }
+  limits:   { cpu: "500m", memory: "256Mi" }
+backend_resources:
+  requests: { cpu: "200m", memory: "256Mi" }
+  limits:   { cpu: "1", memory: "512Mi" }
+
+use_registry_secret: false
+domain_name: "quizapp.local"
+
+app_env:
+  NODE_ENV: "production"
+  BACKEND_BASE_URL: "http://backend.quizapp.svc.cluster.local:8080"
